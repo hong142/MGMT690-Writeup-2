@@ -25,30 +25,15 @@ According to FAQ of aws, the data volume and object number that can be stored ar
 
 Set up porperly, you just need to dump and reteirve data as you needed. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. And things like the data versioning and access contorl will also be taken care of.
 
-### Interaction with Object Storage
-We interact with object storage through the action of put, get and delete. 
-
-**Ways to interact**
-1. through AWS Management Console
-2. through AWS Command Line Interface
-3. Using a programming laguage such as python with certain packages
-
-**create bucket**
-
-log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
-manage at scale
-Create bucket, varies option here, take the default, I can upload and add files here. Free tier, to certain point. Storage layer.
-
-
-
-
 ### Selection of Cloud
 After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same aws ohio cloud. Threr are two part about the cloud selection ,the provider and the goegrapyica location. 
 
 **1. cost**
+
 To choose between cloud payers, its alwasy athe cost matters the most, if all of them can fulfill your fucnnaltiy requriemernt.Jusfity the cost for the infrasuteucture you need. cost are tied a lot of time.  
 
 **2. Speed**
+
 Another ceratira we consiedring is primarlily speed.
 
 If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other, so the process is not efficient, either.
@@ -65,9 +50,22 @@ scaling pretty significantly, they may need to considering more of the location.
 
 Another problem is some companies have sepcific polciy about clud can be used. TYpical sample would be Walmart, who is developing its own wed service platform, prohibited its vendors form using the aws service. If your client has such requirment, and the client is important enogh to you, you definite want to take care of this. Besides, such requriemrtn has significant impact for future makret share, which might change the market and thus impact other companies choice and eventaully requires your adaptation. Or the pricing might change, so the other cloud offers better pricing, you want to have adeaquate flexbility to move among those clouds wihtout significantly affect normal bussienss acativities. Doesn’t happen all the time, but if you hedge all you bets on a sinlge cloud, that’s like why people sometimes spread themselves acroos clouds. Just to get them some diversity just in case, they have to move or for example aws changes their pricing. Some companiea were even build this own wire. 
 
+### Interaction with Object Storage
+We interact with object storage through the action of put, get and delete. 
+
+**Ways to interact**
+1. through AWS Management Console
+2. through AWS Command Line Interface
+3. Using a programming laguage such as python with certain packages
+
+**create bucket**
+
+log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
+manage at scale
+Create bucket, varies option here, take the default, I can upload and add files here. Free tier, to certain point. Storage layer.
+
 ### Extra Layer
-We can create buckets and interact, why go beyond.
-Integration, we are geeting imppages form users, unlikely we gonna give users the access to our aws account. We put results somewhere back in s3, not doing things interactively, we are going to write a program that acully does things and put data somewhere.its not going to loging in and doing things actively. Not quite enough, ther is a potential other,need soething more a grapignsc interface, something you interact iwththrough  scrip ro batch procee,
+By now, we are already able to create buckets and interact with the s3 cloud. However, we believe an extra layer is needed for Integration.
 
 Maybe something with a script, smething we write in a program language. Potentially an api, amazon. The public api for those things is another layer on top of it. When you interact with htfs or from some other languages. Vm console machine. 
 Introduce complication in code, potential bug, behave dfierentlyon the server,than beanve on my laptop, problem homogenous platform. Ideally we could take the code, run it the same way as we did on our laptop,without having a lot complication to it, potneitally change th behave of our code such that, if behave the  same way on the cloud as its on our laptop. Not inru duig a lot of bug as we deploy it.  Make the  rest of our engering srening at uswe deploy thins they break.
@@ -80,6 +78,8 @@ Provide governce things. Give interface to data to reda in and wirte out files j
 Their language whiter api without this layer. Prositeery of data version, give us file interfacae.
 **3. Access Control**
 porcseing data from peoples house, ew have to really maintain straict control who can aces the adata, not gonna give e very bodythe logh gcreatial to aws and have them login to upload things see eberybody’es image. Have some amngementhwo  can ceee who can process the data internally. Pracicy extra layer basic facility. Trakc user id performing tracking. Id are unique to object stroagre, not necessrtiey unique to a certain person. Howve to make that connection. Basic quthentica system. Processing data form hurned thousand differnet house a lot management overhead creatae a huednr thaousna d diferetn buckts. Manually mange the acesss to all of those, ideally we  want to just throuw data to s3 and mange who have the access.to which data interally.
+
+ we are geeting imppages form users, unlikely we gonna give users the access to our aws account. We put results somewhere back in s3, not doing things interactively, we are going to write a program that acully does things and put data somewhere.its not going to loging in and doing things actively. Not quite enough, ther is a potential other,need soething more a grapignsc interface, something you interact iwththrough  scrip ro batch procee,
 
 **4. Compliance & privacy**
 potentialy track changes in our data overtime. we find frudenlm an drejce them,for insurance claime we need to able to say what the data we procee how we procee whne we proceee, 
