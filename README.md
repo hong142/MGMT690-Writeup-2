@@ -5,7 +5,7 @@ As we introduced in the first writeup, our team are building an image processing
 This document will guide you through the decision process of our team concerning the gathering and orgizaiton of our data, and give you some insight on what decision you should make during the process, how you should approch those decisions and related things worth of extra care. Figure out how we going to setup that place to store the data, how we are going to organize the data, and varies things we need to be careful about when we processing people’s data.  
 
 ## Storage Type Selection
-There are three storage options, which are file storage, block ctorage and object sotrage. Given our data are large unsturctured data, we will choose object storage, storing data as objects in scaable buckets, for the following advantages:
+There are three storage options, which are file storage, block ctorage and object sotrage. Given our data are large unsturctured data, we will choose object storage, storing data as objects in scaable buckets.
 
 ### Advantages of Object Storage
 **1. Cheap**
@@ -14,7 +14,8 @@ Object strage can provide us large amount of saving on stroage. To illustrate, w
 
 
 **2. Flexibility**
-In addition to cost saving, object storage allows storage of varies type and amount of data. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. The SQL databse in hte previous comparision using setted up schema, allows nice operation,serchaing over data very quickly or performing joint between data. But it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. You can store virtually any kind of data in any format.
+
+In addition to cost saving, object storage allows storage of varies type and amount of data. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. The SQL databse in hte previous comparision requires preset schema. Though it allows nice operation,serchaing over data very quickly or performing joint between data, it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. 
 
 **3. Scalbility**
 According to FAQ of aws, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least curently, 5TB is more than enough to cover any company's proceesing need.
