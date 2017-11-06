@@ -1,37 +1,33 @@
 # Gathering and Organizing Data  
 ## Intro
-As we introduced in the first writeup, our team are building an image processing and object detection pipeline, which can be integrated into a motion-detector-based security system to reduce the false positive rate. The first problem we need to slove for this project is the storage of data, including establish the storage place and decides the ways to orgranize data. 
-In this document, I will guide you through the decision process of our team concerning the gathering and orgizaiton of our data, and give you some insight on what decision you should make during the process, how you should approch those decisions and related things worth of extra care.
+As we introduced in the first writeup, our team are building an image processing and object detection pipeline, which can be integrated into a motion-detector-based security system to reduce the false positive rate. The first problem we need to slove for this project is the storage of data, including establish the storage place and decides the ways to orgranize data. The analysis and storage of all data can not happend on our local laptop, thre should be a place for other s to sned us the data and automately process those data.on the other side of the storage, is where we going to build our additional processing structure, processing data and develop insights out of that. 
 
-One piece of this is that we can’t have our analysis on our laptops, we can’t have everybody on the company whose as one of our motion detectors cameras , they can’t be sending us their data  through our laptop, we have to establish some place to store our data, and on the other side of the storage, is where we going to build our additional processing structure, processing data and develop insights out of that. 
+In this document, I will guide you through the decision process of our team concerning the gathering and orgizaiton of our data, and give you some insight on what decision you should make during the process, how you should approch those decisions and related things worth of extra care. Figure out how we going to setup that place to store the data, how we are going to organize the data, and varies things we need to be careful about when we processing people’s data.  
 
-Figure out how we going to setup that place to store the data, how we are going to organize the data, and varies things we need to be careful about when we processing people’s data.  
-
-If you mess this piece up, then everything downstream if short.  Garbage in garbage out, crucial step.  On you laptop, you set your model up, high accuracy, essentially solve the problem. But you on a team at business that is process those image for the customers, this is their business use case. Translate value into company did on laptop. From inbrease to preprocessing to doing that Automate way running all the time. Intellectually solve problem, but things up to process data and  integrate that to the rest of the work flow of the business. The real value happened at the stage, experimentation. Goal is on laptop, now aht, otherwise get over the step. 
+This stage comes first and is crutial beacuse Garbage in garbage out, any downsteam procesing of data would not produce stisfing results if the origianl data is of problems.On you laptop, you set your model up, high accuracy, essentially solve the problem. But you on a team at business that is process those image for the customers, this is their business use case. Translate value into company did on laptop. From inbrease to preprocessing to doing that Automate way running all the time. Intellectually solve problem, but things up to process data and  integrate that to the rest of the work flow of the business. The real value happened at the stage, experimentation. Goal is on laptop, now aht, otherwise get over the step. 
 
 Putting together some set of things, for the laptop to store the data and store in a way with other layers on top of that towhere we can process that at scale. We can go from processing 100 imga on laptop to process image from our users. Thts going to involve object storage. Why a business what choose the soloution, putting acouple layers on top of that to enable us actually put data in object storage. Connect to one of the system nd put some data to see how it look like in a actual work scenario. 
 
 ## Storage Type Selection
-Depends on your data type and teh calse of your data, there are three storage options, which are file storage, block ctorage and object sotrage. given our data are large unsturctured data, we will choose object storage for the following advantages:
+Depends on your data type and teh calse of your data, there are three storage options, which are file storage, block ctorage and object sotrage. given our data are large unsturctured data, we will choose object storage, which is store data as objects in scaable buckets, for the following advantages and we will use aws(amazon cloud web services) s3 for most of examples:
 
 ### Advantages of Object Storage
 **1. Cheap**
 Object strage can provide us large amount of saving on stroage. To illustrate, we can make a comparision between the pricing of object storage and that of blcok storage. Take aws(amazon cloud web services) s3 for example. The pricing varies by region, since our team is located in soemwhere near ohio, we are going to choose the ohio region, and I will further explana our consideration of location later in the documnet. As you can see 50TB storage only cost 0.023 dollar per GB per month. Object stroage ususally using tiered pricing, which means it is even cheaper when you access data more frequently. To make this more claer, let us look at th pricing of a rds service, same region, same provider, Amazon RDS for PostgreSQL. The pricing structure is a little different, is per hour per instance (database serve you have in the cloud). Typically you would have a single databse everyone can access, but not neserraily correspond to a sinlge instants noe, could be multiple Working together to support the databse.Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars a month. Assume we need a meleidum size and speed server, the db.m4.large, then the monthly charge would be around 135 dollars, equals to store around 6TB data on object storage. If you have a large team or doing a lot things like dployment that will accesing the data a lot, and then a larger databse with higher performance is needed, the ratio goes higher than 10TB. Typically for comapnies doing data analytics, the need for monthly data storage is less than 10TB. If we can leverage object storage here for our purpose, we can potentially save a lot of money. The pricing from other web service providers shows similar pattern.
 
-throw things into a bucket.
-
-
-
-Assume we going to deploy everything in the cloud ,standard today to enterprise
-let’s assume we will always access a lot. You can see scale of pricing we talking here, just ocntras that, let go ahead to look at similar pricing fro rbs cico service. 
 
 **2. Flexibility**
-Flexible in terms of storage a whole bunch of different data. 
-Don’t have to go to different heriage, scalbility. Simple
-Have to know about the type of data schema. Processing varies type of data, diverse, not good to fit in a schema
+In addition to cost saving, object storage allows storage of varies type and amount of data. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. The SQL databse in hte previous comparision using setted up schema, allows nice operation,serchaing over data very quickly or performing joint between data. But it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. You can store virtually any kind of data in any format.
 
-put get delet, manage at scale
-Ciso database, block storage set up shema, allow nice operations, serchaing over data very quickly or performing joint between data. But again it more restricktive in terms of the format of that data you can put in. 
+**3. Scalbility**
+According to FAQ of aws, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least curently, 5TB is more than enough to cover any company's proceesing need.
+
+**4. Simple**
+
+### Interaction with Object Storage
+We interact with object storage through the action of put, get and delete. One way is through aws conslue, log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
+manage at scale
+
 
 
 
@@ -39,7 +35,7 @@ Storagae is cheap in general, commodity, cheap cross industry, as oppose to serv
 
 Out of servers they run, thye partition running vm. Ebs harddruve. If you want ot store on that machine or atcht to tht machineHardwrive in the cloud the you toe on harddrive, the more you gonna spend. Instants gives yo acess to computing poer, attach storage to that. Rds, certain maount fodaa you can traoe, more expensive than datbse. Computing in the cloud, pay actual processing and for the storage. S3 is just stroarge, nothing about computing processing cpu, you just putting and gettingdata form that service. We’ll do later in s3, spne up in many of this serves to process data from s3,fro individual ahrdward  we hav eto attach to our dirvers. storage data together in a simpl unified place. Using server to get processing.  
 
-Aws the reason prrety much one of the first plwyer, dominate the market for a long time, chaingi. Decide where to dploy.  Instructure project, great support, more competitive. Stop paynign to competitor for tech we need.any partner of their can’t run on aws ,singnificant in the market. Its changing.
+
 
 
 Layer, abstruct that out, if you havea analytics program procees ifle in and rout run the same way. Nice and simple No layer, some special client. only have to know at theend. At integration part, come to analytics team, Where data is where we gonna process data from, we have to know that integration point how to put egrees to the end , which might be s3 or different place. we don’t really care, untl e have use case for soenthing else.
@@ -48,9 +44,12 @@ Ther eare tradeoff
 
 The comparison is probably more between any system that require some structure format for the data and associate data processing with that data. Either hwve to run onec2 or a hoster service like rds. Pay for process asscociate with them .here we just paying for the storage and address the process using something like ec2 for processing not storage.
 
-Jusfity the cost for the infrasuteucture you need. cost are tied a lot of time. Sacalbable. Frequently ask question on amazon, you canstroe unlimited data which people won’t get to infinity. Zero to 5 tb. I doubt and I have never, industy are changing , maybe we’ll see a 5tb to process someday, dood for a while. Simple.
+Jusfity the cost for the infrasuteucture you need. cost are tied a lot of time.  
+
 ### Selection of Cloud
-After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same cloud. The benefit for that is primarlily speed. Threr are two part about the cloud selection ,the provider and the goegrapyica location. If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is wired and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other.
+After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same cloud. The benefit for that is primarlily speed. Threr are two part about the cloud selection ,the provider and the goegrapyica location. If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is wired and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other.
+
+Instructure project, great support, more competitive. Stop paynign to competitor for tech we need.any partner of their can’t run on aws ,singnificant in the market. Its changing.
 Create near us.
 Speed, down;oading something rom sybirad a lot slower than orhio. Internet I swired, the go around check opoints. 
 Coupkes things going on here. 
@@ -63,9 +62,7 @@ What is your client is walmart, building everything for wlamart in aws, they say
 Closer to clint, aceess more often. Specially you have infrusture you are developing on, may be you have a big cluster, trains models for data serecnei team, but its not the on eclinset are interact with, we may take the model form the cluster upload to another pipeline for users to interact with. Degifnltley have to adjust fro that aelement. In gerrnal, if you are working on a single cloud , is not a terrible, most of time, this optimization are firarly grauer, and come only  after you are scaling pretty significantly. If you worse problem is that your cooenct tion with your database your are processing is like slow because of region. You probably doing very well , because youa re processing like milliong of requrest per second form your users. A good indication. Consierd moving things around, expeically services company. Have presence in all of the regions. Even set up duplicate intrastures in saem regions. Neflix have presence in Chicago even they don’t have a;ot personnel there. Have a lot users in middle west.
 
 Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. 
-### Interact
-How to inteact with objekct torage
-Get put delete.
-One way aws conslue, log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
+
+
 
 
