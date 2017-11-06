@@ -15,45 +15,58 @@ Object strage can provide us large amount of saving on stroage. To illustrate, w
 
 **2. Flexibility**
 
-In addition to cost saving, object storage allows storage of varies type and amount of data. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. The SQL databse in hte previous comparision requires preset schema. Though it allows nice operation,serchaing over data very quickly or performing joint between data, it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. 
+In addition to cost saving, object storage allows storage of varies type and amount of data. The SQL databse in hte previous comparision requires preset schema. Though it allows nice operation,serchaing over data very quickly or performing joint between data, it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. 
 
 **3. Scalbility**
+
 According to FAQ of aws, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least curently, 5TB is more than enough to cover any company's proceesing need.
 
 **4. Simple**
 
+Set up porperly, you just need to dump and reteirve data as you needed. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. And things like the data versioning and access contorl will also be taken care of.
+
 ### Interaction with Object Storage
-We interact with object storage through the action of put, get and delete. One way is through aws conslue, log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
+We interact with object storage through the action of put, get and delete. 
+
+**Ways to interact**
+1. through AWS Management Console
+2. through AWS Command Line Interface
+3. Using a programming laguage such as python with certain packages
+
+**create bucket**
+
+log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
 manage at scale
 Create bucket, varies option here, take the default, I can upload and add files here. Free tier, to certain point. Storage layer.
-Command line tols, script, interact with aws, ec2 other services, lamda s3.
-In a language, pull down something form aws, python porto package s3 pytoh inteact.
 
-We can create buckets and interact, why go beyond.
-Processing level, actually foing processing in python
-Create and run on laptop, do we need to do differently to run on s3 using packages, 
-Written python package, processing image on local file and out put a model. Put this up somewhere, script what it does, locally to s3, write  some data pralleting coed, get this back to users results to api, after the stage you build the model and acorss those files, 
 
-if you not talnking about using anything here, chere to change a lot thins in my code, integrate more packages,change the crautaute of my code, such that parereler, and more complicated. To do things in a automated way, between s3 and severput my code upther ehave to change a lot, since its not  gonna to know any thing about s3abotu where to put data, pareller, 
+
 
 ### Selection of Cloud
+After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same aws ohio cloud. Threr are two part about the cloud selection ,the provider and the goegrapyica location. 
+
 **1. cost**
-To choose between cloud payers, its alwasy athe cost matters the most, if all of them can fulfill your fucnnaltiy requriemernt.
-**1.general rule**
-After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same cloud. The benefit for that is primarlily speed. Threr are two part about the cloud selection ,the provider and the goegrapyica location. If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other, so the process is not efficient, either. As for geolocation, usually you can expect to download something or upload some thing more quickly if you are interact with a cloud near you than form a cloud located at the other end of the world. That's why we choose the region of ohio. And aws has more than a dozen of fasilities, which covers most part of the world, tis would not be a chalegneing to find one nearby. We want to stick to a reagion if we can. 
+To choose between cloud payers, its alwasy athe cost matters the most, if all of them can fulfill your fucnnaltiy requriemernt.Jusfity the cost for the infrasuteucture you need. cost are tied a lot of time.  
+
+**2. Speed**
+Another ceratira we consiedring is primarlily speed.
+
+If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other, so the process is not efficient, either.
+
+As for geolocation, usually you can expect to download something or upload some thing more quickly if you are interact with a cloud near you than form a cloud located at the other end of the world. That's why we choose the region of ohio. And aws has more than a dozen of fasilities, which covers most part of the world, tis would not be a chalegneing to find one nearby. And the speed is fatest if all the things are in the same cloud, so We want to stick to a reagion if we can. 
+
+Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. 
 
 **Other Tradeoff & Concern**
-Generally, you should choose to avoid reaching put to public internet when you don’t have to. For big companies, their personnel and customers are literally everywhere, Putting everything in one cloud is  one choice, trade off with that is. If aws falls up is bad, which actually deosn’t really happen too often. Last year  intenet went down, dns issue. Clutser menmory resources. Providers are pretty good that rarely happened. outages will be one.they may need to considering more of the location. Either find a location balnce the distance to most facilities or priotize the larges and most freuent users. Specially you have infrusture you are developing on, may be you have a big cluster, trains models for data serecnei team, but its not the on eclinset are interact with, we may take the model form the cluster upload to another pipeline for users to interact with. Degifnltley have to adjust fro that aelement. One exampel would be nefliz has presence in CHICAGO, sipmply becaue they have a lot users in middle west. closer to client.In gerrnal, if you are working on a single cloud , is not a terrible, most of time, this optimization are firarly grauer, and come only  after you are scaling pretty significantly. If you worse problem is that your cooenct tion with your database your are processing is like slow because of region. You probably doing very well , because youa re processing like milliong of requrest per second form your users. A good indication. Consierd moving things around, expeically services company. Have presence in all of the regions. Even set up duplicate intrastures in saem regions. Neflix have presence in Chicago even they don’t have a;ot personnel there. Have a lot users in middle west. Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. 
+
+Generally, you should choose to avoid reaching put to public internet when you don’t have to. For big companies, their personnel and customers are literally everywhere, Putting everything in one cloud is one choice, trade off with that is. If aws falls up is bad, which actually deosn’t really happen too often. Last year  intenet went down, dns issue. Clutser menmory resources. Providers are pretty good that rarely happened. outages will be one. In gerrnal, if you are working on a single cloud , is not a terrible, most of time, 
+
+scaling pretty significantly, they may need to considering more of the location. youa re processing like milliong of requrest per second form your users. A good indication. Consierd moving things around, expeically services company. Have presence in all of the regions. Even set up duplicate intrastures in saem regions.Either find a location balnce the distance to most facilities or priotize the larges and most freuent users. Specially you have infrusture you are developing on, may be you have a big cluster, trains models for data serecnei team, but its not the on eclinset are interact with, we may take the model form the cluster upload to another pipeline for users to interact with. Degifnltley have to adjust fro that aelement. One exampel would be nefliz has presence in CHICAGO, sipmply becaue they have a lot users in middle west. closer to client.
 
 Another problem is some companies have sepcific polciy about clud can be used. TYpical sample would be Walmart, who is developing its own wed service platform, prohibited its vendors form using the aws service. If your client has such requirment, and the client is important enogh to you, you definite want to take care of this. Besides, such requriemrtn has significant impact for future makret share, which might change the market and thus impact other companies choice and eventaully requires your adaptation. Or the pricing might change, so the other cloud offers better pricing, you want to have adeaquate flexbility to move among those clouds wihtout significantly affect normal bussienss acativities. Doesn’t happen all the time, but if you hedge all you bets on a sinlge cloud, that’s like why people sometimes spread themselves acroos clouds. Just to get them some diversity just in case, they have to move or for example aws changes their pricing. Some companiea were even build this own wire. 
 
-
-Instructure project, great support, more competitive. 
-
-
-
-Create bucket, varies option here, take the default, I can upload and add files here. Free tier, to certain point. Storage layer.
 ### Extra Layer
+We can create buckets and interact, why go beyond.
 Integration, we are geeting imppages form users, unlikely we gonna give users the access to our aws account. We put results somewhere back in s3, not doing things interactively, we are going to write a program that acully does things and put data somewhere.its not going to loging in and doing things actively. Not quite enough, ther is a potential other,need soething more a grapignsc interface, something you interact iwththrough  scrip ro batch procee,
 
 Maybe something with a script, smething we write in a program language. Potentially an api, amazon. The public api for those things is another layer on top of it. When you interact with htfs or from some other languages. Vm console machine. 
