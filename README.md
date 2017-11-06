@@ -4,25 +4,25 @@ As we introduced in the first writeup, our team are building an image processing
 
 This document will guide you through the decision process of our team about the setup of the storage space, and give you some insights on criteria as well as tradeoffs you might want to consider if you are choosing a storage space for a similar system. 
 ## Storage Type Selection
-There are three storage options, which are file storage, block ctorage and object sotrage. Given our data are large unsturctured data, we will choose object storage, storing data as objects in scaable buckets.
+There are three storage options, which are file storage, block storage and object storage. Given our data are large unstructured data, we will choose object storage, storing data as objects in scalable buckets.
 
-### Advantages of Object Storage
+### Reasons to Choose Object Storage
 **1. Cheap**
 
-Object strage can provide us large amount of saving on stroage. To illustrate, we can make a comparision between the pricing of object storage and that of blcok storage. Take aws(amazon cloud web services) s3 for example. The pricing varies by region, since our team is located in soemwhere near ohio, we are going to choose the ohio region, and I will further explana our consideration of location later. As you can see in the first picture, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object stroage ususally using tiered pricing, which means it is even cheaper when you access data more frequently. Then,let us look at th pricing of a rds service, same region, same provider. The pricing structure of aws RDS for PostgreSQL is a little different, it is per hour per instance (database server you have in the cloud). Typically, a company would have a single databse everyone can access, but the number of servers to suport the databse could devier based on needs. Assume we need a meleidum size and speed server, such as the db.m4.large, then the monthly charge would be around 135 dollars, which equals to the cost of storing around 6TB data on object storage. If you have a large team or doing a lot things like dployment that will accesing the data a lot, and then a larger databse with higher performance is needed, the ratio goes higher than 10TB. Typically for comapnies doing data analytics, the need for monthly data storage is less than 10TB. If we can leverage object storage here for our purpose, we can potentially save a lot of money. The pricing from other web service providers shows similar pattern.
-
-
+Object storage can provide us large amount of saving on storage. To illustrate, we can make a comparison between the pricing of object storage and that of block storage. Take AWS (amazon cloud web services) as an example. 
+The pricing of its object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Selection of Cloud part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
+ Then, let us look at the pricing of an RDS service for the same region. The pricing structure is a little different. It is per hour per instance (database server you have in the cloud). Typically, a company would have a single database everyone can access, but the number of servers to support the database varies based on needs. Assume we need a medium size and speed server, such as the “db.m4.large”. Then the monthly charge would be around 135 dollars, which equals to the cost of storing around 6TB data on object storage. If your team access data more often, and then a larger database with higher performance is needed, the ratio goes higher than 10TB. 
 **2. Flexibility**
 
-In addition to cost saving, object storage allows storage of varies type and amount of data. The SQL databse in hte previous comparision requires preset schema. Though it allows nice operation,serchaing over data very quickly or performing joint between data, it restircts the data type you can put in. So it's realy depends on the functionality you want ot acheive with your data. 
+In addition to cost saving, object storage allows storage of varies types and amount of data. The SQL database in the previous comparison requires preset schema. Though it provides some nice data operations, it restricts the types and formats of data you can put in. However, the tradeoff between the flexibility of object storage and certain functionalities of other types is really depends on what you want to do with your data.
+**3. Scalability**
 
-**3. Scalbility**
-
-According to FAQ of aws, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least curently, 5TB is more than enough to cover any company's proceesing need.
+According to FAQ of AWS, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least currently, 5TB is more than enough to cover any company's processing need.
 
 **4. Simple**
 
-Set up porperly, you just need to dump and reteirve data as you needed. There is no need to consider the schema or herirachy of data in advance, which is easier to use for unstructured data that is hard to fit in a schema. And things like the data versioning and access contorl will also be taken care of.
+If we set up the object storage properly, we will just need to dump and retrieve data anytime as we need. We do not have to consider the schema or hierarchy of data in advance, which is easier to adopt for our unstructured data that is hard to fit in a schema. And things like the data versioning and access control will also be taken care of.
+
 
 ### Selection of Cloud
 After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same aws ohio cloud. Threr are two part about the cloud selection ,the provider and the goegrapyica location. 
