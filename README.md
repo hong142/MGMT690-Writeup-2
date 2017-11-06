@@ -12,9 +12,11 @@ There are three storage options, which are file storage, block storage and objec
 Object storage can provide us large amount of saving on storage. To illustrate, we can make a comparison between the pricing of object storage and that of block storage. Take AWS (amazon cloud web services) as an example. 
 The pricing of its object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Selection of Cloud part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
  Then, let us look at the pricing of an RDS service for the same region. The pricing structure is a little different. It is per hour per instance (database server you have in the cloud). Typically, a company would have a single database everyone can access, but the number of servers to support the database varies based on needs. Assume we need a medium size and speed server, such as the “db.m4.large”. Then the monthly charge would be around 135 dollars, which equals to the cost of storing around 6TB data on object storage. If your team access data more often, and then a larger database with higher performance is needed, the ratio goes higher than 10TB. 
+ 
 **2. Flexibility**
 
 In addition to cost saving, object storage allows storage of varies types and amount of data. The SQL database in the previous comparison requires preset schema. Though it provides some nice data operations, it restricts the types and formats of data you can put in. However, the tradeoff between the flexibility of object storage and certain functionalities of other types is really depends on what you want to do with your data.
+
 **3. Scalability**
 
 According to FAQ of AWS, the data volume and object number that can be stored are unlimited, with individual s3 object size ranging from 0 bytes to 5 TB. At least currently, 5TB is more than enough to cover any company's processing need.
