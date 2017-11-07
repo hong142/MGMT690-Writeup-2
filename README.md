@@ -10,7 +10,7 @@ There are three storage options, which are file storage, block storage and objec
 **1. Cheap**
 
 Object storage can provide us large amount of saving on storage. To illustrate, we can make a comparison between the pricing of object storage and that of block storage. Take AWS (amazon cloud web services) as an example. 
-The pricing of its object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Selection of Cloud part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
+The pricing of its object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Cloud Selection part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
  Then, let us look at the pricing of an RDS service for the same region. The pricing structure is a little different. It is per hour per instance (database server you have in the cloud). Typically, a company would have a single database everyone can access, but the number of servers to support the database varies based on needs. Assume we need a medium size and speed server, such as the “db.m4.large”. Then the monthly charge would be around 135 dollars, which equals to the cost of storing around 6TB data on object storage. If your team access data more often, and then a larger database with higher performance is needed, the ratio goes higher than 10TB. 
  
 **2. Flexibility**
@@ -26,30 +26,26 @@ According to FAQ of AWS, the data volume and object number that can be stored ar
 If we set up the object storage properly, we will just need to dump and retrieve data anytime as we need. We do not have to consider the schema or hierarchy of data in advance, which is easier to adopt for our unstructured data that is hard to fit in a schema. And things like the data versioning and access control will also be taken care of.
 
 
-### Selection of Cloud
-After deciding on deploy the object storage, we need to deicide which cloud to use. Currently on the makret, a few big players are amazon, Google and Microsoft, with amazon as the first palyer in the dominance palce. We have been using amazon for other parts, we would like to keep things in the same aws ohio cloud. Threr are two part about the cloud selection ,the provider and the goegrapyica location. 
+## Cloud Selection
+After deciding on deploying the object storage, we need to select the cloud. Currently on the market, a few big players are Amazon, Google and Microsoft, with Amazon in dominance. Our team have been using Amazon for other parts, so we would like to keep things in the same AWS Ohio cloud. 
+### Goals for Cloud Layout
+**1. Cheap**
 
-**1. cost**
+To choose among cloud players, cost matters the most given all of them can fulfill our functionality requirements. Usually the costs of object storage services are close to each other, so the tradeoff between functionality and cost are relatively unnecessary. 
 
-To choose between cloud payers, its alwasy athe cost matters the most, if all of them can fulfill your fucnnaltiy requriemernt.Jusfity the cost for the infrasuteucture you need. cost are tied a lot of time.  
+**2. Fast**
 
-**2. Speed**
-
-Another ceratira we consiedring is primarlily speed.
-
-If you store things in the same providers' clouds, even if in multile locations, they usually have special wire to link those clouds around the world, so that your data don't have to go thorugh the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in diferent payers' cloud, your data have to go through the public Internet even the phisical facility of two clouds are next to each other, so the process is not efficient, either.
-
-As for geolocation, usually you can expect to download something or upload some thing more quickly if you are interact with a cloud near you than form a cloud located at the other end of the world. That's why we choose the region of ohio. And aws has more than a dozen of fasilities, which covers most part of the world, tis would not be a chalegneing to find one nearby. And the speed is fatest if all the things are in the same cloud, so We want to stick to a reagion if we can. 
-
-Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. Detectable to users is  200 miliseconds. Gernally, if under 200 then  inmeiqubie to a user, mya be slightly harder for video steraming.website, good. 
+Our team also want to ensure the transmission of data is fast, so the users would not experience any obvious delay. Storing things in the same providers' clouds, even if in multiple locations, is a better choice. Service providers usually have special wires to link their own clouds facilities around the world, so that your data don't have to go through the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in different providers’ clouds, your data must go through the public Internet even when the physical facilities of two clouds are next to each other.
+As for geolocation, we want to stick to a region nearby. Usually you can expect to download or upload more quickly if you are interacting with a cloud near you than with a cloud located at the other end of the world. That's why we choose the region of Ohio. And the transmission process tends to be most efficient when all the things are in the same cloud. 
 
 **Other Tradeoff & Concern**
 
-Generally, you should choose to avoid reaching put to public internet when you don’t have to. For big companies, their personnel and customers are literally everywhere, Putting everything in one cloud is one choice, trade off with that is. If aws falls up is bad, which actually deosn’t really happen too often. Last year  intenet went down, dns issue. Clutser menmory resources. Providers are pretty good that rarely happened. outages will be one. In gerrnal, if you are working on a single cloud , is not a terrible, most of time, 
-
-scaling pretty significantly, they may need to considering more of the location. youa re processing like milliong of requrest per second form your users. A good indication. Consierd moving things around, expeically services company. Have presence in all of the regions. Even set up duplicate intrastures in saem regions.Either find a location balnce the distance to most facilities or priotize the larges and most freuent users. Specially you have infrusture you are developing on, may be you have a big cluster, trains models for data serecnei team, but its not the on eclinset are interact with, we may take the model form the cluster upload to another pipeline for users to interact with. Degifnltley have to adjust fro that aelement. One exampel would be nefliz has presence in CHICAGO, sipmply becaue they have a lot users in middle west. closer to client.
-
-Another problem is some companies have sepcific polciy about clud can be used. TYpical sample would be Walmart, who is developing its own wed service platform, prohibited its vendors form using the aws service. If your client has such requirment, and the client is important enogh to you, you definite want to take care of this. Besides, such requriemrtn has significant impact for future makret share, which might change the market and thus impact other companies choice and eventaully requires your adaptation. Or the pricing might change, so the other cloud offers better pricing, you want to have adeaquate flexbility to move among those clouds wihtout significantly affect normal bussienss acativities. Doesn’t happen all the time, but if you hedge all you bets on a sinlge cloud, that’s like why people sometimes spread themselves acroos clouds. Just to get them some diversity just in case, they have to move or for example aws changes their pricing. Some companiea were even build this own wire. 
+Generally, you should choose to avoid reaching out to public internet when you don’t have to. Even for big companies, whose personnel and customers are literally everywhere, putting everything in one cloud is still a good choice most of time. But this does reduce the flexibility. You could choose to backup or diversify if you can justify the extra costs, for example some risks with this option is highly possible and will generate large losses for your company. 
+One risk here is when incidents like Internet outage preventing the usage of the only service cloud you are using, your whole business would be significantly impacted. But we believe this is a rare scenario.
+Another risk is associated with some companies’ policy about their vendors’ could usage. One typical example would be Walmart, who is developing its own wed service platform and prohibited its vendors from using the AWS service. If your client has such requirement, and the client is important enough to you, you definitely want to factor this in. Besides, such policy might change the future market structure and thus alter other companies’ choices, eventually requiring your adaptation. 
+Changing pricing can also be a risk added to the need of flexibility to move around among clouds.
+When you scale significantly, it could indicate need for multiple locations. Especially for large service companies, they may want to have presences in locations where they have a lot of customers regardless of their personnel location.
+ 
 
 ### Setup of s3
 The detail instruction of setup and usagea of s3 can be found on the [s3 website](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html), at the intila stage, all you need is an s3 account, bucket name and choose a location.
