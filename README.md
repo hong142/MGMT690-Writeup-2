@@ -36,14 +36,19 @@ To choose among cloud players, cost matters the most given all of them can fulfi
 **2. Fast**
 
 Our team also want to ensure the transmission of data is fast, so the users would not experience any obvious delay. Storing things in the same providers' clouds, even if in multiple locations, is a better choice. Service providers usually have special wires to link their own clouds facilities around the world, so that your data don't have to go through the public Internet, where the transmission of data is unpredictable and relatively time consuming. On the other hand, if data are stored in different providers’ clouds, your data must go through the public Internet even when the physical facilities of two clouds are next to each other.
+
 As for geolocation, we want to stick to a region nearby. Usually you can expect to download or upload more quickly if you are interacting with a cloud near you than with a cloud located at the other end of the world. That's why we choose the region of Ohio. And the transmission process tends to be most efficient when all the things are in the same cloud. 
 
 **3. Other Tradeoff & Concern**
 
 Generally, you should choose to avoid reaching out to public internet when you don’t have to. Even for big companies, whose personnel and customers are literally everywhere, putting everything in one cloud is still a good choice most of time. But this does reduce the flexibility. You could choose to backup or diversify if you can justify the extra costs, for example some risks with this option is highly possible and will generate large losses for your company. 
+
 One risk here is when incidents like Internet outage preventing the usage of the only service cloud you are using, your whole business would be significantly impacted. But we believe this is a rare scenario.
-Another risk is associated with some companies’ policy about their vendors’ could usage. One typical example would be Walmart, who is developing its own wed service platform and prohibited its vendors from using the AWS service. If your client has such requirement, and the client is important enough to you, you definitely want to factor this in. Besides, such policy might change the future market structure and thus alter other companies’ choices, eventually requiring your adaptation. 
+
+Another risk is associated with some companies’ policy about their vendors’ could usage. One typical example would be Walmart, who is developing its own wed service platform and prohibited its vendors from using the AWS service. If your client has such requirement, and the client is important enough to you, you definitely want to factor this in. Besides, such policy might change the future market structure and thus alter other companies’ choices, eventually requiring your adaptation.
+
 Changing pricing can also be a risk added to the need of flexibility to move around among clouds.
+
 When you scale significantly, it could indicate need for multiple locations. Especially for large service companies, they may want to have presences in locations where they have a lot of customers regardless of their personnel location.
  
 
@@ -56,28 +61,25 @@ The detail instruction of setup and use of s3 can be found on the [s3 website](h
 2. Through AWS Command Line Interface
 3. Using a programming language such as python with certain packages
 
-### Extra Layer
-By now, we are already able to create buckets and interact with the s3 cloud. However, we believe an extra layer is needed for Integration.
+## Extra Layer - Pachyderm
+By now, we are already able to create buckets and interact with the s3 cloud. However, we believe an extra layer is needed for Integration. When we interact with the cloud through a public API created using console, we do get another layer on it for interaction. However, because sometimes things behave differently on the server than on our local laptop, we would have to add packages to our code to have model run as expected on the server. As a result, we would introduce complication in our code and potentially bugs, as well.  What’s worse is the associated cost and liability due to added risks. Ideally, we would like to create an extra layer that enables us to run the code on server the same way as on our laptops without having a lot complication to it. We will use pachyderm platform as the layer to provide necessary data governance.
+### Benefits of Pachyderm
+**1. Data Organization**
 
-Typically, When we interact with the cloud through a public API created using conlsoe, we do get another layer on it. but it still
-Introduces complication in code, potential bug, behave dfierentlyon the server,than beanve on my laptop. Ideally, we could take the code, run it the same way as we did on our laptop,without having a lot complication to it, potneitally change th behave of our code such that, if behave the  same way on the cloud as its on our laptop. Not inru duig a lot of bug as we deploy it.  Make the  rest of our engering srening at uswe deploy thins they break.
+Pachyderm takes care of everything of interaction behind the scene, including parallelism and resource management. Thus, it enables us to run our code on the server without integrating additional packages, providing a unified way of processing from local laptop to the storage. We can use the same interface all the time to read in and write our files.
 
-Wrute things, go to dploy stage and a large block,try to dploy thsing in a coll way m, and break. Go to uing, know everything, optimiezer change this, as a business, the work flow I sbad, add risk into the pipieline, increase liability, process heal data or image form their house, sensitiveity data. A lot of tiem a lot of money, the botllmneck, everybody has to  go to the person, and if I lose the person as an employee, totally scrude. Golas here as a team find a unified way of doing locally in the cloudl connecting with the storage, is scalable. Upload ,doload didferent team dfiernt location. Working form  your local laptop and running your code in a development cluster, even if you can connect to s3, you ccan’t download. You ight be connect to mahcines . deceide as a team , we need there’s seoemthiglakcing not what we can functionally do sa we can storage data, but the interactionwe goona have. Data goence things lacking.
+**2. Practical Data Versioning**
 
-**1. Organization**
-Organization unified, Provide governce things. Give interface to data to reda in and wirte out files just like on loacla laptop. And under the hood, perderm will take care of storing those We can worte our python sript on our laptop, then wegoongna able to deploy on the cloud, own’t have to integrate additional packages, complication, just so we can acess and run it the same way. 
-Their language whiter api without this layer.
-**2. Pratical Data Versioning**
- Prositeery of data version, give us file interfacae.and versioning in object store. 
+All the data flow through the pachyderm pipeline is version controlled and stored in the repository, so we can keep track of data states or model results, which is important for ensuring consistency among teammates in development phases. 
+
 **3. Access Control**
-We are going to porcseing data from people's houses, so ew have to maintain a straict control of data access. Instead of giving everyone the logh gcreatial to aws for image uploading, the right of processing data internally will be given to certain persons.Pckyuderm will make the connection between the user id to a certian people, so that we will able to avoid a large amount of manually managemnt expense for acess control for data from thousandn sof houses.
 
-ideally we  want to just throuw data to s3 and mange who have the access.to which data interally.
-
- we are geeting imppages form users, unlikely we gonna give users the access to our aws account. We put results somewhere back in s3, not doing things interactively, we are going to write a program that acully does things and put data somewhere.its not going to loging in and doing things actively. Not quite enough, ther is a potential other,need soething more a grapignsc interface, something you interact iwththrough  scrip ro batch procee,
+We are going to process images from people's houses, which are sensitive private data, so we must maintain a strict control of data access. Instead of giving everyone the login credentials to AWS for direct image uploading, the right of processing data internally will be given to only a small group. Pachyderm will make the connection between the user IDs and people with authority, so that we can avoid a large amount of management expense for doing access control manually.
 
 **4. Compliance & privacy**
-potentialy track changes in our data overtime. we find frudenlm an drejce them,for insurance claime we need to able to say what the data we procee how we procee whne we proceee, 
+
+Because of the private feature of our data, we may need to comply with some laws that require records of data usage. With the data versioning of pachyderm, we can accurately and easily track changes in our data, analysis and results overtime. Additionally, the access control offered by pachyderm helps prevent unnecessary data exposure, protected the privacy.
+ 
 
 
 
