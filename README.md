@@ -87,7 +87,8 @@ All the data flow through the pachyderm pipeline is version controlled and store
 **3. Access Control**
 
 We are going to process images from people's houses, which are sensitive private data, so we must maintain a strict control of data access. Instead of giving everyone the login credentials to AWS for direct image uploading, the right of processing data internally will be given to only a small group. Pachyderm will make the connection between the user IDs and people with authority, so that we can avoid a large amount of management expense for doing access control manually. 
-**4. Compliance & privacy**
+
+**4. Compliance & Privacy**
 
 Because of the private feature of our data, we may need to comply with some laws that require records of data usage. With the data versioning of pachyderm, we can accurately and easily track changes in our data, analysis and results overtime. Additionally, the access control offered by pachyderm helps prevent unnecessary data exposure, protected the privacy.
 ### Pachyderm Setup & Interaction 
