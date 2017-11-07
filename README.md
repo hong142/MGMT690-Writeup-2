@@ -47,22 +47,14 @@ Changing pricing can also be a risk added to the need of flexibility to move aro
 When you scale significantly, it could indicate need for multiple locations. Especially for large service companies, they may want to have presences in locations where they have a lot of customers regardless of their personnel location.
  
 
-### Setup of s3
-The detail instruction of setup and usagea of s3 can be found on the [s3 website](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html), at the intila stage, all you need is an s3 account, bucket name and choose a location.
-
-### Interaction with Object Storage
-We interact with object storage through the action of put, get and delete. 
+### s3 Setup & Interaction 
+The detail instruction of setup and use of s3 can be found on the [s3 website](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html). At the initial stage, all you need is an s3 account, a bucket name and a cloud location. Eventually, you will interact with object storage through the action of put, get and delete. 
 
 **Ways to interact**
-1. through AWS Management Console
-2. through AWS Command Line Interface
-3. Using a programming laguage such as python with certain packages
 
-**create bucket**
-
-log in heres my s3 service form amazon. Have a buchket there, have some staff. Go and create abukcet. Big danl bucket. 
-manage at scale
-Create bucket, varies option here, take the default, I can upload and add files here. Free tier, to certain point. Storage layer.
+1. Through AWS Management Console
+2. Through AWS Command Line Interface
+3. Using a programming language such as python with certain packages
 
 ### Extra Layer
 By now, we are already able to create buckets and interact with the s3 cloud. However, we believe an extra layer is needed for Integration.
