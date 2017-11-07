@@ -58,7 +58,7 @@ Changing pricing can also be a risk added to the need of flexibility to move aro
 When you scale significantly, it could indicate need for multiple locations. Especially for large service companies, they may want to have presences in locations where they have a lot of customers regardless of their personnel location.
  
 
-### s3 Setup & Interaction 
+## s3 Setup & Interaction 
 The detail instruction of setup and use of s3 can be found on the [s3 website](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html). At the initial stage, all you need is an s3 account, a bucket name and a cloud location. Eventually, you will interact with object storage through the action of put, get and delete. 
 
 **Ways to interact**
@@ -91,5 +91,5 @@ We are going to process images from people's houses, which are sensitive private
 **4. Compliance & Privacy**
 
 Because of the private feature of our data, we may need to comply with some laws that require records of data usage. With the data versioning of pachyderm, we can accurately and easily track changes in our data, analysis and results overtime. Additionally, the access control offered by pachyderm helps prevent unnecessary data exposure, protected the privacy.
-### Pachyderm Setup & Interaction 
+## Pachyderm Setup & Interaction 
 There are two ways to interact with Pachyderm, one is through Command Line Interface and the other is through its dashboard. You can follow the [instruction](http://pachyderm.readthedocs.io/en/latest/getting_started/getting_started.html) to activiate and manage your pachyderm.
