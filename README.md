@@ -6,11 +6,11 @@ This document will guide you through the decision process of our team about the 
 ## Storage Type Selection
 There are three storage options, which are file storage, block storage and object storage. Given our data are large unstructured data, we will choose object storage, storing data as objects in scalable buckets.
 
-### Reasons to Choose Object Storage
+### Reasons to Choose [Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
 **1. Cheap**
 
 Object storage can provide us large amount of saving on storage. To illustrate, we can make a comparison between the pricing of object storage and that of block storage. Take AWS (amazon cloud web services) as an example. 
-The pricing of its object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Cloud Selection part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
+The pricing of its [s3](https://aws.amazon.com/s3/) object storage varies by region. Since our team locates somewhere near Ohio, we are going to choose the Ohio region, and I will further explain location selection later in the Cloud Selection part. As you see in the first picture below, first 50TB storage only cost 0.023 dollar per GB per month. Assume we have 1000 GB to store per month, then the monthly cost would be 23 dollars. Object storage usually uses tiered pricing, which means the unit cost could be lower when you access data more frequently.
  Then, let us look at the pricing of an RDS service for the same region. The pricing structure is a little different. It is per hour per instance (database server you have in the cloud). Typically, a company would have a single database everyone can access, but the number of servers to support the database varies based on needs. Assume we need a medium size and speed server, such as the “db.m4.large”. Then the monthly charge would be around 135 dollars, which equals to the cost of storing around 6TB data on object storage. If your team access data more often, and then a larger database with higher performance is needed, the ratio goes higher than 10TB. 
  
 **2. Flexibility**
@@ -61,7 +61,7 @@ The detail instruction of setup and use of s3 can be found on the [s3 website](h
 2. Through AWS Command Line Interface
 3. Using a programming language such as python with certain packages
 
-## Extra Layer - Pachyderm
+## Extra Layer - [Pachyderm](http://pachyderm.io/)
 By now, we are already able to create buckets and interact with the s3 cloud. However, we believe an extra layer is needed for Integration. When we interact with the cloud through a public API created using console, we do get another layer on it for interaction. However, because sometimes things behave differently on the server than on our local laptop, we would have to add packages to our code to have model run as expected on the server. As a result, we would introduce complication in our code and potentially bugs, as well.  What’s worse is the associated cost and liability due to added risks. Ideally, we would like to create an extra layer that enables us to run the code on server the same way as on our laptops without having a lot complication to it. We will use pachyderm platform as the layer to provide necessary data governance.
 ### Benefits of Pachyderm
 **1. Data Organization**
@@ -74,8 +74,9 @@ All the data flow through the pachyderm pipeline is version controlled and store
 
 **3. Access Control**
 
-We are going to process images from people's houses, which are sensitive private data, so we must maintain a strict control of data access. Instead of giving everyone the login credentials to AWS for direct image uploading, the right of processing data internally will be given to only a small group. Pachyderm will make the connection between the user IDs and people with authority, so that we can avoid a large amount of management expense for doing access control manually.
-
+We are going to process images from people's houses, which are sensitive private data, so we must maintain a strict control of data access. Instead of giving everyone the login credentials to AWS for direct image uploading, the right of processing data internally will be given to only a small group. Pachyderm will make the connection between the user IDs and people with authority, so that we can avoid a large amount of management expense for doing access control manually. 
 **4. Compliance & privacy**
 
 Because of the private feature of our data, we may need to comply with some laws that require records of data usage. With the data versioning of pachyderm, we can accurately and easily track changes in our data, analysis and results overtime. Additionally, the access control offered by pachyderm helps prevent unnecessary data exposure, protected the privacy.
+### Pachyderm Setup & Interaction 
+There are two ways to interact with Pachyderm, one is through Command Line Interface and the other is through its dashboard. You can follow the [instruction](http://pachyderm.readthedocs.io/en/latest/getting_started/getting_started.html) to activiate and manage your pachyderm.
