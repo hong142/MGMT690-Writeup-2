@@ -29,7 +29,7 @@ According to FAQ of AWS, the data volume and object number that can be stored ar
 
 **4. Simple**
 
-If we set up the object storage properly, we will just need to dump and retrieve data anytime as we need. We do not have to consider the schema or hierarchy of data in advance, which is easier to adopt for our unstructured data that is hard to fit in a schema. And things like the data versioning and access control will also be taken care of.
+If we set up the object storage properly, we just need to dump and retrieve data anytime as we need. We do not have to consider the schema or hierarchy of data in advance, which is easier to adopt for our unstructured data that is hard to fit in a schema. And things like the data versioning and access control will also be taken care of.
 
 
 ## Cloud Selection
